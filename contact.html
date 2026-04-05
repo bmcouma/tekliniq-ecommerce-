@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact — TEKLINIQ</title>
+  <meta name="description" content="Get in touch with TEKLINIQ. We are here to help with orders, returns, and inquiries.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav" id="mainNav">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__logo">TEKLINIQ</a>
+      <button class="nav__toggle" id="navToggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav__links" id="navLinks">
+        <li><a href="index.html" class="nav__link">Home</a></li>
+        <li><a href="products.html" class="nav__link">Products</a></li>
+        <li><a href="contact.html" class="nav__link nav__link--active">Contact</a></li>
+      </ul>
+      <button class="nav__cart" id="cartToggle" aria-label="Open cart">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/>
+          <path d="M16 10a4 4 0 01-8 0"/>
+        </svg>
+        <span class="nav__cart-count" id="cartCount">0</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <section class="page-header">
+    <div class="container">
+      <h1 class="page-header__title">Get In Touch</h1>
+      <p class="page-header__subtitle">We would love to hear from you. Reach out for orders, returns, or just to say hello.</p>
+    </div>
+  </section>
+
+  <!-- Contact Content -->
+  <section class="section contact-section">
+    <div class="container">
+      <div class="contact-grid">
+        <!-- Contact Info -->
+        <div class="contact-info reveal">
+          <div class="contact-info__item">
+            <div class="contact-info__icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <div>
+              <h4>Visit Us</h4>
+              <p>42 Innovation Drive<br>Johannesburg, South Africa</p>
+            </div>
+          </div>
+          <div class="contact-info__item">
+            <div class="contact-info__icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <div>
+              <h4>Email Us</h4>
+              <p>hello@tekliniq.com</p>
+            </div>
+          </div>
+          <div class="contact-info__item">
+            <div class="contact-info__icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+            </div>
+            <div>
+              <h4>Call Us</h4>
+              <p>+27 11 234 5678</p>
+            </div>
+          </div>
+          <div class="contact-info__hours">
+            <h4>Business Hours</h4>
+            <p>Monday — Friday: 9:00 AM — 6:00 PM</p>
+            <p>Saturday: 10:00 AM — 4:00 PM</p>
+            <p>Sunday: Closed</p>
+          </div>
+        </div>
+
+        <!-- Contact Form -->
+        <form class="contact-form reveal" id="contactForm">
+          <div class="form-group">
+            <label for="contactName">Full Name</label>
+            <input type="text" id="contactName" class="form-input" placeholder="Your full name" required>
+            <span class="form-error" id="nameError"></span>
+          </div>
+          <div class="form-group">
+            <label for="contactEmail">Email Address</label>
+            <input type="email" id="contactEmail" class="form-input" placeholder="you@example.com" required>
+            <span class="form-error" id="emailError"></span>
+          </div>
+          <div class="form-group">
+            <label for="contactSubject">Subject</label>
+            <select id="contactSubject" class="form-input" required>
+              <option value="" disabled selected>Select a topic</option>
+              <option value="order">Order Inquiry</option>
+              <option value="return">Returns & Exchanges</option>
+              <option value="product">Product Question</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="contactMessage">Message</label>
+            <textarea id="contactMessage" class="form-input form-textarea" placeholder="How can we help?" rows="5" required></textarea>
+            <span class="form-error" id="messageError"></span>
+          </div>
+          <button type="submit" class="btn btn--primary btn--full">Send Message</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Map Placeholder -->
+  <section class="map-section">
+    <div class="map-placeholder">
+      <div class="map-placeholder__content">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <p>42 Innovation Drive, Johannesburg</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer__col">
+          <h3 class="footer__logo">TEKLINIQ</h3>
+          <p class="footer__tagline">Curated luxury by Teklini Technologies.</p>
+        </div>
+        <div class="footer__col">
+          <h4 class="footer__heading">Navigation</h4>
+          <ul class="footer__links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="products.html">Products</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h4 class="footer__heading">Support</h4>
+          <ul class="footer__links">
+            <li><a href="contact.html">Help Center</a></li>
+            <li><a href="contact.html">Returns</a></li>
+            <li><a href="contact.html">Shipping Info</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h4 class="footer__heading">Connect</h4>
+          <ul class="footer__links">
+            <li><a href="#">Instagram</a></li>
+            <li><a href="#">Twitter</a></li>
+            <li><a href="#">LinkedIn</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p>&copy; 2025 TEKLINIQ by Teklini Technologies. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Cart Drawer -->
+  <div class="cart-overlay" id="cartOverlay"></div>
+  <aside class="cart-drawer" id="cartDrawer">
+    <div class="cart-drawer__header">
+      <h3>Your Cart</h3>
+      <button class="cart-drawer__close" id="cartClose">&times;</button>
+    </div>
+    <div class="cart-drawer__items" id="cartItems"></div>
+    <div class="cart-drawer__empty" id="cartEmpty">
+      <p>Your cart is empty</p>
+      <a href="products.html" class="btn btn--outline btn--sm">Browse Products</a>
+    </div>
+    <div class="cart-drawer__footer" id="cartFooter">
+      <div class="cart-drawer__total">
+        <span>Total</span>
+        <span id="cartTotal">$0.00</span>
+      </div>
+      <button class="btn btn--primary btn--full" id="cartCheckout">Checkout</button>
+    </div>
+  </aside>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <script src="js/TekliniqEngine.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

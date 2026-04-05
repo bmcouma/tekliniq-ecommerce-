@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Products — TEKLINIQ</title>
+  <meta name="description" content="Browse the full TEKLINIQ collection. Premium products curated for refined taste.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav" id="mainNav">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__logo">TEKLINIQ</a>
+      <button class="nav__toggle" id="navToggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav__links" id="navLinks">
+        <li><a href="index.html" class="nav__link">Home</a></li>
+        <li><a href="products.html" class="nav__link nav__link--active">Products</a></li>
+        <li><a href="contact.html" class="nav__link">Contact</a></li>
+      </ul>
+      <button class="nav__cart" id="cartToggle" aria-label="Open cart">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/>
+          <path d="M16 10a4 4 0 01-8 0"/>
+        </svg>
+        <span class="nav__cart-count" id="cartCount">0</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <section class="page-header">
+    <div class="container">
+      <h1 class="page-header__title">Our Collection</h1>
+      <p class="page-header__subtitle">Every piece, intentionally designed. Every detail, carefully considered.</p>
+    </div>
+  </section>
+
+  <!-- Filters -->
+  <section class="filters">
+    <div class="container">
+      <div class="filters__bar">
+        <button class="filter-btn filter-btn--active" data-category="all">All</button>
+        <button class="filter-btn" data-category="accessories">Accessories</button>
+        <button class="filter-btn" data-category="apparel">Apparel</button>
+        <button class="filter-btn" data-category="footwear">Footwear</button>
+        <button class="filter-btn" data-category="bags">Bags</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Product Grid -->
+  <section class="section products-section">
+    <div class="container">
+      <div class="product-grid product-grid--full" id="productGrid">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer__col">
+          <h3 class="footer__logo">TEKLINIQ</h3>
+          <p class="footer__tagline">Curated luxury by Teklini Technologies.</p>
+        </div>
+        <div class="footer__col">
+          <h4 class="footer__heading">Navigation</h4>
+          <ul class="footer__links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="products.html">Products</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h4 class="footer__heading">Support</h4>
+          <ul class="footer__links">
+            <li><a href="contact.html">Help Center</a></li>
+            <li><a href="contact.html">Returns</a></li>
+            <li><a href="contact.html">Shipping Info</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h4 class="footer__heading">Connect</h4>
+          <ul class="footer__links">
+            <li><a href="#">Instagram</a></li>
+            <li><a href="#">Twitter</a></li>
+            <li><a href="#">LinkedIn</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p>&copy; 2025 TEKLINIQ by Teklini Technologies. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Cart Drawer -->
+  <div class="cart-overlay" id="cartOverlay"></div>
+  <aside class="cart-drawer" id="cartDrawer">
+    <div class="cart-drawer__header">
+      <h3>Your Cart</h3>
+      <button class="cart-drawer__close" id="cartClose">&times;</button>
+    </div>
+    <div class="cart-drawer__items" id="cartItems"></div>
+    <div class="cart-drawer__empty" id="cartEmpty">
+      <p>Your cart is empty</p>
+      <a href="products.html" class="btn btn--outline btn--sm">Browse Products</a>
+    </div>
+    <div class="cart-drawer__footer" id="cartFooter">
+      <div class="cart-drawer__total">
+        <span>Total</span>
+        <span id="cartTotal">$0.00</span>
+      </div>
+      <button class="btn btn--primary btn--full" id="cartCheckout">Checkout</button>
+    </div>
+  </aside>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <script src="js/TekliniqEngine.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

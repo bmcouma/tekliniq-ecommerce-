@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TEKLINIQ — Curated Luxury</title>
+  <meta name="description" content="TEKLINIQ by Teklini Technologies — A curated luxury e-commerce experience.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav" id="mainNav">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__logo">TEKLINIQ</a>
+      <button class="nav__toggle" id="navToggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav__links" id="navLinks">
+        <li><a href="index.html" class="nav__link nav__link--active">Home</a></li>
+        <li><a href="products.html" class="nav__link">Products</a></li>
+        <li><a href="contact.html" class="nav__link">Contact</a></li>
+      </ul>
+      <button class="nav__cart" id="cartToggle" aria-label="Open cart">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/>
+          <path d="M16 10a4 4 0 01-8 0"/>
+        </svg>
+        <span class="nav__cart-count" id="cartCount">0</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero" id="hero">
+    <div class="hero__slides">
+      <div class="hero__slide hero__slide--active" data-slide="0">
+        <div class="hero__content">
+          <p class="hero__eyebrow fade-up">New Season 2025</p>
+          <h1 class="hero__title fade-up delay-1">Redefine Your<br>Everyday Luxury</h1>
+          <p class="hero__subtitle fade-up delay-2">Curated collections that speak to refined taste and timeless design.</p>
+          <a href="products.html" class="btn btn--primary fade-up delay-3">Explore Collection</a>
+        </div>
+      </div>
+      <div class="hero__slide" data-slide="1">
+        <div class="hero__content">
+          <p class="hero__eyebrow fade-up">Exclusive Arrivals</p>
+          <h1 class="hero__title fade-up delay-1">Crafted With<br>Intention</h1>
+          <p class="hero__subtitle fade-up delay-2">Every piece tells a story of precision, quality, and understated elegance.</p>
+          <a href="products.html" class="btn btn--primary fade-up delay-3">Shop Now</a>
+        </div>
+      </div>
+      <div class="hero__slide" data-slide="2">
+        <div class="hero__content">
+          <p class="hero__eyebrow fade-up">Limited Edition</p>
+          <h1 class="hero__title fade-up delay-1">Where Function<br>Meets Form</h1>
+          <p class="hero__subtitle fade-up delay-2">Minimalism elevated. Design without compromise.</p>
+          <a href="products.html" class="btn btn--primary fade-up delay-3">Discover More</a>
+        </div>
+      </div>
+    </div>
+    <div class="hero__dots">
+      <button class="hero__dot hero__dot--active" data-dot="0"></button>
+      <button class="hero__dot" data-dot="1"></button>
+      <button class="hero__dot" data-dot="2"></button>
+    </div>
+  </section>
+
+  <!-- Featured Products -->
+  <section class="section featured" id="featured">
+    <div class="container">
+      <p class="section__eyebrow">Curated Selection</p>
+      <h2 class="section__title">Featured Products</h2>
+      <div class="product-grid" id="featuredGrid">
+        <!-- Rendered by JS -->
+      </div>
+      <div class="featured__cta">
+        <a href="products.html" class="btn btn--outline">View All Products</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Brand Values -->
+  <section class="section values">
+    <div class="container">
+      <div class="values__grid">
+        <div class="value-card reveal">
+          <div class="value-card__icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <h3 class="value-card__title">Premium Quality</h3>
+          <p class="value-card__text">Every product is rigorously tested and crafted from the finest materials available.</p>
+        </div>
+        <div class="value-card reveal">
+          <div class="value-card__icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          </div>
+          <h3 class="value-card__title">Free Shipping</h3>
+          <p class="value-card__text">Complimentary delivery on all orders over $100, worldwide.</p>
+        </div>
+        <div class="value-card reveal">
+          <div class="value-card__icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+          </div>
+          <h3 class="value-card__title">Timeless Design</h3>
+          <p class="value-card__text">Pieces that transcend trends and become wardrobe staples for years.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter -->
+  <section class="section newsletter">
+    <div class="container">
+      <div class="newsletter__inner reveal">
+        <h2 class="newsletter__title">Stay In The Loop</h2>
+        <p class="newsletter__text">Subscribe to receive exclusive previews, early access, and insider pricing.</p>
+        <form class="newsletter__form" id="newsletterForm">
+          <input type="email" class="newsletter__input" placeholder="Your email address" required>
+          <button type="submit" class="btn btn--primary">Subscribe</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer__col">
+          <h3 class="footer__logo">TEKLINIQ</h3>
+          <p class="footer__tagline">Curated luxury by Teklini Technologies.</p>
+        </div>
+        <div class="footer__col">
+          <h4 class="footer__heading">Navigation</h4>
+          <ul class="footer__links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="products.html">Products</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h4 class="footer__heading">Support</h4>
+          <ul class="footer__links">
+            <li><a href="contact.html">Help Center</a></li>
+            <li><a href="contact.html">Returns</a></li>
+            <li><a href="contact.html">Shipping Info</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h4 class="footer__heading">Connect</h4>
+          <ul class="footer__links">
+            <li><a href="#">Instagram</a></li>
+            <li><a href="#">Twitter</a></li>
+            <li><a href="#">LinkedIn</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p>&copy; 2025 TEKLINIQ by Teklini Technologies. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Cart Drawer -->
+  <div class="cart-overlay" id="cartOverlay"></div>
+  <aside class="cart-drawer" id="cartDrawer">
+    <div class="cart-drawer__header">
+      <h3>Your Cart</h3>
+      <button class="cart-drawer__close" id="cartClose">&times;</button>
+    </div>
+    <div class="cart-drawer__items" id="cartItems">
+      <!-- Rendered by JS -->
+    </div>
+    <div class="cart-drawer__empty" id="cartEmpty">
+      <p>Your cart is empty</p>
+      <a href="products.html" class="btn btn--outline btn--sm">Browse Products</a>
+    </div>
+    <div class="cart-drawer__footer" id="cartFooter">
+      <div class="cart-drawer__total">
+        <span>Total</span>
+        <span id="cartTotal">$0.00</span>
+      </div>
+      <button class="btn btn--primary btn--full" id="cartCheckout">Checkout</button>
+    </div>
+  </aside>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <script src="js/TekliniqEngine.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
