@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+
+{% block title %}Checkout | TEKLINIQ Marketplace{% endblock %}
+
+{% block content %}
+<section class="py-16 max-w-7xl mx-auto px-4">
+    <form method="POST" class="flex flex-col lg:flex-row gap-16">
+        {% csrf_token %}
+        
+        <!-- Shipping & Payment -->
+        <div class="flex-grow space-y-12">
+            <div>
+                <h1 class="text-4xl font-display font-bold text-white uppercase tracking-widest mb-4">Final <span class="text-gold">Checkout</span></h1>
+                <p class="text-slate-500 text-xs uppercase tracking-widest">Complete your elite transaction details below</p>
+            </div>
+
+            <!-- Address Form -->
+            <div class="glass border border-white/10 rounded-2xl p-10 space-y-8">
+                <h2 class="text-xl font-display font-bold uppercase tracking-widest text-white border-b border-white/5 pb-6">Shipping Address</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="space-y-2">
+                        <label class="text-[10px] text-slate-500 uppercase tracking-widest font-bold">Full Name</label>
+                        <input type="text" name="full_name" required value="{{ user.get_full_name }}" class="w-full bg-charcoal border border-white/10 px-6 py-4 rounded-xl text-sm outline-none focus:border-gold transition">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-[10px] text-slate-500 uppercase tracking-widest font-bold">Phone Number</label>
+                        <input type="text" name="phone_number" required placeholder="+254 7..." class="w-full bg-charcoal border border-white/10 px-6 py-4 rounded-xl text-sm outline-none focus:border-gold transition">
+                    </div>
+                </div>
+
+                <div class="space-y-2">
+                    <label class="text-[10px] text-slate-500 uppercase tracking-widest font-bold">Delivery Address</label>
+                    <textarea name="address" required rows="3" placeholder="Building, Street, Apartment..." class="w-full bg-charcoal border border-white/10 px-6 py-4 rounded-xl text-sm outline-none focus:border-gold transition"></textarea>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="space-y-2">
+                        <label class="text-[10px] text-slate-500 uppercase tracking-widest font-bold">City / Estate</label>
+                        <input type="text" name="city" required class="w-full bg-charcoal border border-white/10 px-6 py-4 rounded-xl text-sm outline-none focus:border-gold transition">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-[10px] text-slate-500 uppercase tracking-widest font-bold">Email (For receipt)</label>
+                        <input type="email" name="email" value="{{ user.email }}" required class="w-full bg-charcoal border border-white/10 px-6 py-4 rounded-xl text-sm outline-none focus:border-gold transition">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payment Method -->
+            <div class="glass border border-white/10 rounded-2xl p-10 space-y-8">
+                <h2 class="text-xl font-display font-bold uppercase tracking-widest text-white border-b border-white/5 pb-6">Payment Method</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6" x-data="{ method: 'MPESA' }">
+                    <label :class="method === 'MPESA' ? 'border-gold bg-gold/5' : 'border-white/10 bg-white/5'" class="flex items-center justify-between p-6 rounded-2xl border cursor-pointer transition">
+                        <div class="flex items-center gap-4">
+                            <input type="radio" name="payment_method" value="MPESA" @click="method = 'MPESA'" checked class="accent-gold">
+                            <span class="text-xs font-bold uppercase tracking-widest text-white">M-Pesa Express</span>
+                        </div>
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/1/15/M-PESA_LOGO-01.svg" class="h-6">
+                    </label>
+
+                    <label :class="method === 'STRIPE' ? 'border-gold bg-gold/5' : 'border-white/10 bg-white/5'" class="flex items-center justify-between p-6 rounded-2xl border cursor-pointer transition">
+                        <div class="flex items-center gap-4">
+                            <input type="radio" name="payment_method" value="STRIPE" @click="method = 'STRIPE'" class="accent-gold">
+                            <span class="text-xs font-bold uppercase tracking-widest text-white">Credit Card</span>
+                        </div>
+                        <div class="flex gap-2">
+                             <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" class="h-4 grayscale">
+                             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Visa_2021.svg/512px-Visa_2021.svg.png" class="h-4">
+                        </div>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Order Summary -->
+        <div class="lg:w-96">
+            <div class="glass border border-white/10 rounded-2xl p-8 sticky top-24">
+                <h2 class="text-xl font-display font-bold uppercase tracking-widest text-white mb-8">Review Order</h2>
+                
+                <div class="space-y-4 max-h-60 overflow-y-auto mb-8 border-b border-white/5 pb-8">
+                    {% for item in cart.items.all %}
+                        <div class="flex justify-between items-center gap-4">
+                            <div class="flex-grow">
+                                <span class="text-[10px] font-bold uppercase tracking-widest text-white block truncate w-40">{{ item.product.name }}</span>
+                                <span class="text-[10px] text-slate-500 uppercase tracking-widest">Qty: {{ item.quantity }}</span>
+                            </div>
+                            <span class="text-[10px] font-bold text-gold">KSh {{ item.total_price|floatformat:0 }}</span>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <div class="space-y-4 mb-10">
+                    <div class="flex justify-between text-[10px] uppercase tracking-widest">
+                        <span class="text-slate-500">Subtotal</span>
+                        <span class="text-white font-bold">KSh {{ cart.total_price|floatformat:0 }}</span>
+                    </div>
+                    <div class="flex justify-between text-[10px] uppercase tracking-widest">
+                        <span class="text-slate-500">Shipping</span>
+                        <span class="text-gold font-bold">KSh 500</span>
+                    </div>
+                    <div class="flex justify-between text-xs uppercase tracking-widest font-bold pt-4 border-t border-white/5">
+                        <span class="text-white">Total</span>
+                        <span class="text-gold">KSh {{ cart.total_price|add:500|floatformat:0 }}</span>
+                    </div>
+                </div>
+
+                <button type="submit" class="block w-full bg-gold text-obsidian py-5 rounded-full text-center text-xs font-bold uppercase tracking-widest shadow-2xl hover:bg-gold-light transition">Complete Purchase</button>
+            </div>
+        </div>
+
+    </form>
+</section>
+{% endblock %}

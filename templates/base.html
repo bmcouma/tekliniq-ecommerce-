@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}TEKLINIQ | Premium Marketplace{% endblock %}</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Alpine.js -->
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <!-- HTMX -->
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    
+    <!-- Tailwind CSS (via CDN for initial rapid setup, transition to local later) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        obsidian: '#0a0a0a',
+                        charcoal: '#111111',
+                        gold: {
+                            DEFAULT: '#d4af37',
+                            light: '#e5c066',
+                            dark: '#b8942a',
+                        },
+                        accent: '#c9a96e',
+                    },
+                    fontFamily: {
+                        display: ['Cormorant Garamond', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        [x-cloak] { display: none !important; }
+        .glass { background: rgba(10, 10, 10, 0.8); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+        .gold-glow { box-shadow: 0 0 15px rgba(212, 175, 55, 0.1); }
+    </style>
+    
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="bg-obsidian text-slate-100 font-sans antialiased min-h-screen flex flex-col" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 glass border-b border-white/10" x-data="{ mobileMenu: false }">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="/" class="text-3xl font-display font-bold tracking-widest text-gold">TEKLINIQ</a>
+                </div>
+
+                <!-- Main Nav -->
+                <div class="hidden md:flex space-x-10 items-center">
+                    <a href="{% url 'product_list' %}" class="text-sm font-medium uppercase tracking-widest hover:text-gold transition text-slate-300">Shop</a>
+                    <a href="#" class="text-sm font-medium uppercase tracking-widest hover:text-gold transition text-slate-300">Categories</a>
+                    <a href="#" class="text-sm font-medium uppercase tracking-widest hover:text-gold transition text-slate-300">New Arrivals</a>
+                </div>
+
+                <!-- Actions -->
+                <div class="hidden md:flex items-center space-x-6">
+                    <!-- Search placeholder -->
+                    <div class="relative group">
+                        <input type="text" placeholder="Search..." class="bg-charcoal border border-white/10 px-4 py-2 rounded-full text-xs focus:border-gold outline-none w-48 transition-all group-hover:w-64">
+                    </div>
+                    
+                    {% if user.is_authenticated %}
+                        <div class="relative" x-data="{ open: false }">
+                            <button @click="open = !open" class="flex items-center space-x-2 text-slate-300 hover:text-gold transition">
+                                <span class="text-xs font-medium uppercase tracking-wider">{{ user.email }}</span>
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+                            </button>
+                            <div x-show="open" @click.away="open = false" class="absolute right-0 mt-3 w-48 glass border border-white/10 rounded-lg shadow-2xl py-2 z-50" x-cloak>
+                                <a href="{% url 'account_dashboard' %}" class="block px-4 py-2 text-xs uppercase tracking-wider hover:bg-gold hover:text-obsidian transition">Dashboard</a>
+                                {% if user.is_seller %}
+                                    <a href="{% url 'seller_dashboard' %}" class="block px-4 py-2 text-xs uppercase tracking-wider hover:bg-gold hover:text-obsidian transition text-gold">Seller Panel</a>
+                                {% endif %}
+                                <hr class="my-2 border-white/5">
+                                <a href="{% url 'account_logout' %}" class="block px-4 py-2 text-xs uppercase tracking-wider hover:bg-red-500 hover:text-white transition">Sign Out</a>
+                            </div>
+                        </div>
+                    {% else %}
+                        <a href="{% url 'account_login' %}" class="text-xs font-medium uppercase tracking-widest text-slate-300 hover:text-gold transition">Login</a>
+                        <a href="{% url 'account_signup' %}" class="bg-gold text-obsidian px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-gold-light transition shadow-lg">Join</a>
+                    {% endif %}
+                    
+                    <!-- Cart -->
+                    <a href="{% url 'cart_detail' %}" class="relative p-2 text-slate-300 hover:text-gold transition">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+                        <span class="absolute top-0 right-0 bg-gold text-obsidian text-[10px] font-bold w-4 h-4 flex items-center justify-center rounded-full">0</span>
+                    </a>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button @click="mobileMenu = !mobileMenu" class="text-slate-300 p-2">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div x-show="mobileMenu" x-cloak class="md:hidden glass border-t border-white/5 py-4">
+            <div class="px-4 space-y-4">
+                <a href="{% url 'product_list' %}" class="block text-sm uppercase tracking-widest">Shop</a>
+                <a href="#" class="block text-sm uppercase tracking-widest">Categories</a>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'account_dashboard' %}" class="block text-sm uppercase tracking-widest text-gold">Dashboard</a>
+                    <a href="{% url 'account_logout' %}" class="block text-sm uppercase tracking-widest text-red-400">Logout</a>
+                {% else %}
+                    <a href="{% url 'account_login' %}" class="block text-sm uppercase tracking-widest">Login</a>
+                    <a href="{% url 'account_signup' %}" class="block text-sm uppercase tracking-widest text-gold">Join TEKLINIQ</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <!-- Content -->
+    <main class="flex-grow">
+        {% if messages %}
+            <div class="max-w-7xl mx-auto px-4 mt-6">
+                {% for message in messages %}
+                    <div class="p-4 rounded-lg flex items-center justify-between {% if message.tags == 'success' %}bg-green-500/10 text-green-400 border border-green-500/20{% else %}bg-red-500/10 text-red-400 border border-red-500/20{% endif %}" x-data="{ show: true }" x-show="show">
+                        <span class="text-sm uppercase tracking-wider font-medium">{{ message }}</span>
+                        <button @click="show = false">&times;</button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-charcoal border-t border-white/5 py-16 mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+                <div class="col-span-1 md:col-span-1">
+                    <h2 class="text-2xl font-display font-bold tracking-widest text-gold mb-6">TEKLINIQ</h2>
+                    <p class="text-slate-400 text-sm leading-relaxed uppercase tracking-wider">
+                        Defining the standard of premium multi-vendor commerce in East Africa. Quality, Trust, Luxury.
+                    </p>
+                </div>
+                <div>
+                    <h3 class="text-xs font-bold uppercase tracking-[0.2em] text-white mb-6">Marketplace</h3>
+                    <ul class="space-y-4 text-xs uppercase tracking-widest text-slate-400">
+                        <li><a href="#" class="hover:text-gold transition">Luxury Electronics</a></li>
+                        <li><a href="#" class="hover:text-gold transition">Designer Fashion</a></li>
+                        <li><a href="#" class="hover:text-gold transition">Prime Property</a></li>
+                        <li><a href="#" class="hover:text-gold transition">Elite Automotive</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xs font-bold uppercase tracking-[0.2em] text-white mb-6">Support</h3>
+                    <ul class="space-y-4 text-xs uppercase tracking-widest text-slate-400">
+                        <li><a href="#" class="hover:text-gold transition">Contact Us</a></li>
+                        <li><a href="#" class="hover:text-gold transition">Shipping Policy</a></li>
+                        <li><a href="#" class="hover:text-gold transition">Seller Center</a></li>
+                        <li><a href="#" class="hover:text-gold transition">Returns & Privacy</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xs font-bold uppercase tracking-[0.2em] text-white mb-6">Newsletter</h3>
+                    <div class="flex flex-col space-y-4">
+                        <p class="text-xs text-slate-400 uppercase tracking-widest">Join the elite circle for early previews.</p>
+                        <form class="flex">
+                            <input type="email" placeholder="Email Address" class="bg-obsidian border border-white/10 px-4 py-2 text-xs outline-none focus:border-gold flex-grow">
+                            <button class="bg-gold text-obsidian px-4 py-2 text-[10px] font-bold uppercase tracking-widest shadow-lg">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-16 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+                <p class="text-[10px] text-slate-500 uppercase tracking-[0.2em]">© 2025 TEKLINIQ BY TEKLINI TECHNOLOGIES. ALL RIGHTS RESERVED.</p>
+                <div class="flex space-x-6 text-slate-500 text-[10px] uppercase tracking-[0.2em]">
+                    <a href="#" class="hover:text-white transition">Instagram</a>
+                    <a href="#" class="hover:text-white transition">LinkedIn</a>
+                    <a href="#" class="hover:text-white transition">Twitter</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

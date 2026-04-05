@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_DB=tekliniq_db
+      - POSTGRES_USER=tekliniq_user
+      - POSTGRES_PASSWORD=tekliniq_pass
+
+  redis:
+    image: redis:7-alpine
+
+  web:
+    build: .
+    command: python manage.py migrate && python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=True
+      - SECRET_KEY=django-insecure-tekliniq-premium-marketplace-production-ready
+      - DATABASE_URL=postgres://tekliniq_user:tekliniq_pass@db:5432/tekliniq_db
+      - ALLOWED_HOSTS=localhost,127.0.0.1,web
+    depends_on:
+      - db
+      - redis
+
+  celery:
+    build: .
+    command: celery -A teklinq worker -l info
+    volumes:
+      - .:/app
+    environment:
+      - DATABASE_URL=postgres://tekliniq_user:tekliniq_pass@db:5432/tekliniq_db
+      - CELERY_BROKER_URL=redis://redis:6379/0
+    depends_on:
+      - db
+      - redis
+
+volumes:
+  postgres_data:

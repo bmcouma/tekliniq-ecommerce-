@@ -1,65 +1,81 @@
-# TEKLINIQ — Curated Luxury E-Commerce (Elite Edition)
+# TEKLINIQ — Elite Multi-Vendor Marketplace (Django Production Edition)
 
-> A production-grade, responsive e-commerce experience built with vanilla HTML, CSS, and JavaScript.  
-> Final project by **Teklini Technologies** for the SoftGrowTech internship program.
+> **A professional, scalable, and sellable multi-vendor e-commerce platform built for the African market (Kenya-First).**  
+> Inspired by Jumia, Kilimall, and Jiji. Designed for premium luxury branding.
 
-## 🏗 Architecture
+## 🚀 Vision
+TEKLINIQ is no longer just a project; it is a **production-grade marketplace solution**. It features separate Buyer and Seller ecosystems, a robust product catalog with advanced filtering, and a modern, high-performance frontend using HTMX and Alpine.js.
 
-```
+## 🏗 Tech Stack
+- **Backend**: Python 3.12 + Django 5.x + Django REST Framework (DRF)
+- **Database**: PostgreSQL (Production) / SQLite (Development)
+- **Frontend**: Django Templates + Tailwind CSS + HTMX + Alpine.js
+- **Auth**: Django Allauth (Email-based, custom roles)
+- **Infrastructure**: Docker + Docker Compose + Redis + Celery
+
+## ✨ Real-World Features
+- **Multi-Vendor Ecosystem**: Specialized onboarding and dashboards for Sellers.
+- **Elite UI/UX**: Dark Luxury theme with Gold accents and glassmorphism.
+- **Advanced Search & Filter**: Real-time filtering by Category, Price, and Condition.
+- **Persistent Cart & Wishlist**: Database-backed shopping experience for logged-in users.
+- **Secure Checkout**: Support for M-Pesa (Placeholder) and Stripe integration.
+- **Marketplace Trust**: Built-in Ratings & Reviews system with automatic score calculation.
+- **Order Tracking**: Stage-by-stage tracking for both buyers and vendors.
+
+## 📂 Project Structure
+```text
 TEKLINIQ/
-├── assets/                 # Brand assets and local resources
-├── index.html              # Home page — hero slider, featured products, values, newsletter
-├── products.html           # Product catalog — search, sort, category filtering
-├── contact.html            # Contact page — form with validation, company info
-├── css/
-│   ├── style.css           # Full design system — tokens, glassmorphism, components
-│   └── animations.css      # Scroll reveals, staggered entrance, luxury transitions
-├── js/
-│   ├── TekliniqEngine.js   # Logic layer — products data, cart operations, localStorage
-│   └── main.js             # UI controller — connecting the Engine to the DOM
-└── README.md
+├── teklinq/                  # Core Project Configuration
+├── accounts/                 # Custom User, Roles (Buyer, Seller, Admin)
+├── products/                 # Products, Categories, Search, Management Commands
+├── cart/                     # Cart, Wishlist Logic
+├── orders/                   # Checkout flow, Tracking, Payments
+├── sellers/                  # Multi-vendor Dashboard & Onboarding
+├── reviews/                  # Ratings & Feedback System
+├── static/                   # Global Assets (Tailwind CSS, Icons)
+├── templates/                # Professional Django Templates (Base, Dashboard, Shop)
+├── media/                    # Local Storage for Product/Seller assets
+├── Dockerfile                # Production Containerization
+└── docker-compose.yml        # Orchestration (DB, Cache, Worker, Web)
 ```
 
-## ✨ Premium Features
+## 🛠 Setup & Launch
 
-- **3-page Responsive Layout** — Home, Products, Contact
-- **High-End Visuals** — Curated Unsplash imagery for every product
-- **Quick View Modal** — Detailed product views without page reloads
-- **Real-time Search** — Dynamic filtering across the entire catalog
-- **Advanced Sorting** — Re-order products by price, date, or featured status
-- **Persistent Cart** — Sidebar drawer with real-time updates via `localStorage`
-- **Hero Slider** — Animated text transitions and auto-advance
-- **Glassmorphism UI** — Modern, blurred navigation and modal overlays
-- **Skeleton Loaders** — Premium "waiting" state for a fluid experience
-- **Toast Notifications** — Instant feedback for cart and form actions
+### 1. Local Setup (Standard)
+1.  **Clone the Repository**:
+    ```bash
+    git clone https://github.com/bmcouma/tekliniq-ecommerce-.git
+    cd TEKLINIQ
+    ```
+2.  **Create Virtual Environment**:
+    ```bash
+    python -m venv .venv
+    .venv\Scripts\activate
+    ```
+3.  **Install Dependencies**:
+    ```bash
+    pip install -r requirements.txt
+    ```
+4.  **Database Migration**:
+    ```bash
+    python manage.py migrate
+    ```
+5.  **Seed Marketplace Data**:
+    ```bash
+    python manage.py seed_data
+    ```
+6.  **Run Development Server**:
+    ```bash
+    python manage.py runserver
+    ```
 
-## 🎨 Design System
-
-| Token | Value |
-|-------|-------|
-| Primary BG | `#0a0a0a` (Deep Obsidian) |
-| Elevated BG | `#111111` (Refined Charcoal) |
-| Accent | `#c9a96e` (Soft Gold) |
-| Display Font | Cormorant Garamond |
-| UI & Body Font | **Inter** (weights 300–700) |
-| Radius | 4px–16px (Consistent scale) |
-
-## 🚀 How to Run
-
-1. Open `index.html` in any modern browser
-2. No build tools, no servers, and zero dependencies required
-
-## 📝 Tech Stack
-
-- **HTML5** (Semantic structure)
-- **CSS3** (Custom properties, Grid, Flexbox, Keyframes, Backdrop-filters)
-- **Vanilla JavaScript** (ES6 Classes, IntersectionObserver, LocalStorage)
-
-## 👤 Author
-
-**Teklini Technologies**  
-SoftGrowTech Final Project — E-Commerce Website
+### 2. Docker Setup (Recommended for Production)
+```bash
+docker-compose up --build
+```
+*The app will be available at `http://localhost:8000` with PostgreSQL and Redis pre-configured.*
 
 ---
 
-© 2025 TEKLINIQ by Teklini Technologies. All rights reserved.
+© 2025 TEKLINIQ by Teklini Technologies. All rights reserved.  
+**Engineered for Elite Commerce.**

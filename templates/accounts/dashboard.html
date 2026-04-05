@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% block title %}Buyer Dashboard | TEKLINIQ{% endblock %}
+
+{% block content %}
+<section class="py-12 bg-charcoal border-b border-white/5">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="flex items-center gap-6">
+            <div class="w-20 h-20 bg-gold/10 border border-gold/30 rounded-full flex items-center justify-center">
+                <span class="text-gold text-2xl font-bold">{{ user.email|truncatechars:1|upper }}</span>
+            </div>
+            <div>
+                <h1 class="text-3xl font-display font-bold text-white uppercase tracking-widest">Welcome, <span class="text-gold">{{ user.first_name|default:user.email }}</span></h1>
+                <p class="text-slate-400 text-xs uppercase tracking-widest mt-1">TEKLINIQ Elite Member since {{ user.date_joined|date:"M Y" }}</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-16 max-w-7xl mx-auto px-4">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+        
+        <!-- Sidebar Navigation -->
+        <div class="lg:col-span-1 space-y-4">
+            <div class="glass border border-white/10 rounded-2xl p-6">
+                <nav class="space-y-2">
+                    <a href="#" class="block px-6 py-4 rounded-xl bg-gold text-obsidian text-xs font-bold uppercase tracking-widest">Overview</a>
+                    <a href="#" class="block px-6 py-4 rounded-xl hover:bg-white/5 text-slate-300 text-xs font-bold uppercase tracking-widest transition">My Orders</a>
+                    <a href="#" class="block px-6 py-4 rounded-xl hover:bg-white/5 text-slate-300 text-xs font-bold uppercase tracking-widest transition">Wishlist</a>
+                    <a href="#" class="block px-6 py-4 rounded-xl hover:bg-white/5 text-slate-300 text-xs font-bold uppercase tracking-widest transition">Profile Settings</a>
+                    {% if user.is_seller %}
+                        <a href="{% url 'seller_dashboard' %}" class="block px-6 py-4 rounded-xl bg-white/5 text-gold text-xs font-bold uppercase tracking-widest border border-gold/20 mt-6">Switch to Seller Mode</a>
+                    {% endif %}
+                </nav>
+            </div>
+        </div>
+
+        <!-- Main Dashboard Content -->
+        <div class="lg:col-span-2 space-y-12">
+            
+            <!-- Stats -->
+            <div class="grid grid-cols-2 gap-6">
+                <div class="glass border border-white/10 rounded-2xl p-8 flex flex-col items-center text-center">
+                    <span class="text-[10px] text-slate-500 uppercase tracking-widest mb-2">Total Orders</span>
+                    <span class="text-4xl font-display font-bold text-white">{{ recent_orders.count }}</span>
+                </div>
+                <div class="glass border border-white/10 rounded-2xl p-8 flex flex-col items-center text-center">
+                    <span class="text-[10px] text-slate-500 uppercase tracking-widest mb-2">Items in Cart</span>
+                    <span class="text-4xl font-display font-bold text-gold">{{ user.cart.items.count|default:0 }}</span>
+                </div>
+            </div>
+
+            <!-- Recent Orders -->
+            <div class="space-y-6">
+                <div class="flex justify-between items-end">
+                    <h2 class="text-xl font-display font-bold uppercase tracking-widest text-white">Recent <span class="text-gold">Orders</span></h2>
+                    <a href="#" class="text-[10px] font-bold uppercase tracking-widest text-slate-500 hover:text-gold">View Full History</a>
+                </div>
+
+                <div class="space-y-4">
+                    {% for order in recent_orders %}
+                        <div class="glass border border-white/10 rounded-2xl p-6 flex flex-wrap items-center justify-between gap-6">
+                            <div class="flex items-center gap-6">
+                                <div class="w-12 h-12 bg-white/5 rounded-xl flex items-center justify-center border border-white/10">
+                                    <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+                                </div>
+                                <div>
+                                    <span class="text-[10px] text-slate-500 uppercase tracking-widest block">Order #{{ order.id }}</span>
+                                    <span class="text-xs font-bold uppercase tracking-widest text-white">{{ order.created_at|date:"M d, Y" }}</span>
+                                </div>
+                            </div>
+                            <div>
+                                <span class="text-[10px] text-slate-500 uppercase tracking-widest block">Status</span>
+                                <span class="px-3 py-1 bg-gold/10 text-gold text-[10px] font-bold uppercase tracking-widest rounded-full border border-gold/20">{{ order.get_status_display }}</span>
+                            </div>
+                            <div>
+                                <span class="text-[10px] text-slate-500 uppercase tracking-widest block">Total</span>
+                                <span class="text-xs font-bold uppercase tracking-widest text-white">KSh {{ order.total_amount|floatformat:0 }}</span>
+                            </div>
+                            <a href="#" class="border border-white/10 px-6 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-white/5 transition">Details</a>
+                        </div>
+                    {% empty %}
+                        <div class="py-20 text-center border border-dashed border-white/10 rounded-2xl">
+                            <p class="text-slate-500 text-xs uppercase tracking-widest">You haven't placed any elite orders yet.</p>
+                            <a href="{% url 'product_list' %}" class="mt-6 inline-block text-gold text-xs font-bold uppercase tracking-widest border-b border-gold">Start Shopping</a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+{% endblock %}

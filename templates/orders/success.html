@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Order Successful | TEKLINIQ Marketplace{% endblock %}
+
+{% block content %}
+<section class="py-32 flex flex-col items-center text-center px-4">
+    <div class="w-24 h-24 bg-gold rounded-full flex items-center justify-center mb-8 gold-glow transition-transform hover:scale-110 duration-700">
+        <svg class="w-12 h-12 text-obsidian" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+    </div>
+    
+    <h1 class="text-4xl md:text-5xl font-display font-bold text-white uppercase tracking-widest mb-6 tracking-widest">Order <span class="text-gold">Successful</span></h1>
+    <p class="text-slate-400 max-w-xl text-xs uppercase tracking-[0.2em] leading-relaxed mb-12">
+        Thank you for choosing TEKLINIQ. Your order #TK-{{ order.id|stringformat:"04d" }} has been received and is being processed by our elite vendors.
+    </p>
+
+    <div class="flex flex-wrap justify-center gap-6">
+        <a href="{% url 'account_dashboard' %}" class="bg-gold text-obsidian px-10 py-4 rounded-full text-xs font-bold uppercase tracking-widest shadow-2xl hover:bg-gold-light transition">Track Order</a>
+        <a href="{% url 'product_list' %}" class="border border-white/10 px-10 py-4 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-white/5 transition">Continue Shopping</a>
+    </div>
+
+    <div class="mt-20 max-w-lg w-full glass border border-white/10 rounded-2xl p-8">
+        <div class="flex justify-between text-[10px] uppercase tracking-widest border-b border-white/5 pb-4 mb-4">
+            <span class="text-slate-500">Transaction ID</span>
+            <span class="text-white font-bold">{{ order.transaction_id|default:"TK-PREMIUM-PAY" }}</span>
+        </div>
+        <div class="flex justify-between text-[10px] uppercase tracking-widest">
+            <span class="text-slate-500">Delivery To</span>
+            <span class="text-white font-bold">{{ order.full_name }} ({{ order.city }})</span>
+        </div>
+    </div>
+</section>
+{% endblock %}
