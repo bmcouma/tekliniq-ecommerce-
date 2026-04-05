@@ -33,7 +33,6 @@ document.addEventListener('DOMContentLoaded', () => {
       navLinks.classList.toggle('open');
     });
 
-    // Close nav on link click (mobile)
     navLinks.querySelectorAll('.nav__link').forEach(link => {
       link.addEventListener('click', () => {
         navToggle.classList.remove('active');
@@ -63,6 +62,43 @@ document.addEventListener('DOMContentLoaded', () => {
   if (cartToggle) cartToggle.addEventListener('click', openCart);
   if (cartClose) cartClose.addEventListener('click', closeCart);
   if (cartOverlay) cartOverlay.addEventListener('click', closeCart);
+
+  // --- Modal Logic ---
+  const modal = $('#productModal');
+  const modalClose = $('#modalClose');
+  const modalOverlay = $('#modalOverlay');
+
+  function openModal(productId) {
+    const product = engine.getProductById(productId);
+    if (!product || !modal) return;
+
+    $('#modalImage').src = product.image;
+    $('#modalImage').alt = product.name;
+    $('#modalCategory').textContent = product.category;
+    $('#modalTitle').textContent = product.name;
+    $('#modalPrice').textContent = '$' + product.price;
+    $('#modalDesc').textContent = product.description;
+
+    const addBtn = $('#modalAddToCart');
+    addBtn.onclick = () => {
+      engine.addToCart(product.id);
+      updateCartBadge();
+      renderCart();
+      showToast(`${product.name} added to cart`);
+      closeModal();
+    };
+
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    if (modal) modal.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  if (modalClose) modalClose.addEventListener('click', closeModal);
+  if (modalOverlay) modalOverlay.addEventListener('click', closeModal);
 
   // --- Cart Badge ---
   function updateCartBadge() {
@@ -98,8 +134,10 @@ document.addEventListener('DOMContentLoaded', () => {
       const product = engine.getProductById(item.id);
       if (!product) return '';
       return `
-        <div class="cart-item" data-id="${product.id}">
-          <div class="cart-item__image">${product.initial}</div>
+        <div class="cart-item">
+          <div class="cart-item__image">
+            <img src="${product.image}" alt="${product.name}" style="width:100%; height:100%; object-fit:cover;">
+          </div>
           <div class="cart-item__details">
             <div class="cart-item__name">${product.name}</div>
             <div class="cart-item__price">$${product.price}</div>
@@ -114,9 +152,8 @@ document.addEventListener('DOMContentLoaded', () => {
       `;
     }).join('');
 
-    if (totalEl) totalEl.textContent = '$' + engine.getCartTotal().toFixed(2);
+    if (totalEl) totalEl.textContent = '$' + engine.getCartTotal().toLocaleString();
 
-    // Attach events
     itemsContainer.querySelectorAll('[data-action]').forEach(btn => {
       btn.addEventListener('click', () => {
         const id = btn.dataset.id;
@@ -132,29 +169,18 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // --- Checkout ---
-  const checkoutBtn = $('#cartCheckout');
-  if (checkoutBtn) {
-    checkoutBtn.addEventListener('click', () => {
-      const cart = engine.getCart();
-      if (cart.length === 0) return;
-      engine.clearCart();
-      renderCart();
-      updateCartBadge();
-      closeCart();
-      showToast('Order placed! Thank you for shopping with TEKLINIQ.', 'success');
-    });
-  }
-
   // --- Product Card Builder ---
   function createProductCard(product, index) {
     const card = document.createElement('div');
-    card.className = 'product-card';
-    card.style.transitionDelay = (index * 0.08) + 's';
+    card.className = 'product-card reveal';
+    card.style.transitionDelay = (index * 0.05) + 's';
 
     card.innerHTML = `
       <div class="product-card__image">
-        <div class="product-card__image-placeholder">${product.initial}</div>
+        <img src="${product.image}" alt="${product.name}" loading="lazy">
+        <div class="product-card__overlay">
+          <button class="product-card__quick-view" data-view-id="${product.id}">Quick View</button>
+        </div>
         ${product.badge ? `<span class="product-card__badge">${product.badge}</span>` : ''}
       </div>
       <div class="product-card__info">
@@ -168,58 +194,105 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
     `;
 
+    // Quick view click
+    card.querySelector('[data-view-id]').addEventListener('click', (e) => {
+      e.stopPropagation();
+      openModal(product.id);
+    });
+
     // Add to cart click
-    card.querySelector('.product-card__add').addEventListener('click', () => {
+    card.querySelector('.product-card__add').addEventListener('click', (e) => {
+      e.stopPropagation();
       engine.addToCart(product.id);
       updateCartBadge();
       renderCart();
-      showToast(`${product.name} added to cart`, 'success');
-
-      // Pulse animation on cart icon
+      showToast(`${product.name} added to cart`);
+      
       if (cartToggle) {
         cartToggle.classList.add('cart-pulse');
         setTimeout(() => cartToggle.classList.remove('cart-pulse'), 300);
       }
     });
 
-    // Stagger entrance
-    requestAnimationFrame(() => {
-      setTimeout(() => card.classList.add('visible'), 50 + index * 80);
-    });
-
     return card;
   }
 
-  // --- Home Page: Featured Grid ---
-  const featuredGrid = $('#featuredGrid');
-  if (featuredGrid) {
-    const featured = engine.fetchFeatured();
-    featured.forEach((product, i) => {
-      featuredGrid.appendChild(createProductCard(product, i));
+  // --- Grid Management (Filter, Search, Sort) ---
+  let currentCategory = 'all';
+  let searchQuery = '';
+  let currentSort = 'featured';
+
+  function updateGrid() {
+    const grid = $('#productGrid') || $('#featuredGrid');
+    if (!grid) return;
+
+    let products = engine.fetchByCategory(currentCategory);
+
+    // Search
+    if (searchQuery) {
+      products = products.filter(p => 
+        p.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+        p.description.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+
+    // Sort
+    if (currentSort === 'price-low') {
+      products.sort((a, b) => a.price - b.price);
+    } else if (currentSort === 'price-high') {
+      products.sort((a, b) => b.price - a.price);
+    } else if (currentSort === 'newest') {
+      products.sort((a, b) => b.id.localeCompare(a.id));
+    }
+
+    grid.innerHTML = '';
+    products.forEach((p, i) => {
+      grid.appendChild(createProductCard(p, i));
+    });
+
+    // Re-trigger scroll reveal since content is new
+    initReveal();
+  }
+
+  // --- Event Listeners ---
+  const searchInput = $('#searchProducts');
+  if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+      searchQuery = e.target.value;
+      updateGrid();
     });
   }
 
-  // --- Products Page: Full Grid + Filters ---
-  const productGrid = $('#productGrid');
-  if (productGrid) {
-    function renderProducts(category) {
-      productGrid.innerHTML = '';
-      const products = engine.fetchByCategory(category);
-      products.forEach((product, i) => {
-        productGrid.appendChild(createProductCard(product, i));
-      });
-    }
-
-    renderProducts('all');
-
-    const filterBtns = $$('.filter-btn');
-    filterBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        filterBtns.forEach(b => b.classList.remove('filter-btn--active'));
-        btn.classList.add('filter-btn--active');
-        renderProducts(btn.dataset.category);
-      });
+  const sortSelect = $('#sortProducts');
+  if (sortSelect) {
+    sortSelect.addEventListener('change', (e) => {
+      currentSort = e.target.value;
+      updateGrid();
     });
+  }
+
+  const filterBtns = $$('.filter-btn');
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('filter-btn--active'));
+      btn.classList.add('filter-btn--active');
+      currentCategory = btn.dataset.category;
+      updateGrid();
+    });
+  });
+
+  // --- Scroll Reveal ---
+  function initReveal() {
+    const revealElements = $$('.reveal');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    revealElements.forEach(el => revealObserver.observe(el));
   }
 
   // --- Hero Slider ---
@@ -238,13 +311,8 @@ document.addEventListener('DOMContentLoaded', () => {
       currentSlide = index;
     }
 
-    function nextSlide() {
-      goToSlide((currentSlide + 1) % heroSlides.length);
-    }
-
-    function startSlider() {
-      slideInterval = setInterval(nextSlide, 5000);
-    }
+    function nextSlide() { goToSlide((currentSlide + 1) % heroSlides.length); }
+    function startSlider() { slideInterval = setInterval(nextSlide, 5000); }
 
     heroDots.forEach(dot => {
       dot.addEventListener('click', () => {
@@ -257,75 +325,28 @@ document.addEventListener('DOMContentLoaded', () => {
     startSlider();
   }
 
-  // --- Scroll Reveal ---
-  const revealElements = $$('.reveal');
-  if (revealElements.length > 0) {
-    const revealObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('revealed');
-          revealObserver.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.15 });
-
-    revealElements.forEach(el => revealObserver.observe(el));
-  }
-
-  // --- Contact Form ---
+  // --- Contact & Newsletter ---
   const contactForm = $('#contactForm');
   if (contactForm) {
     contactForm.addEventListener('submit', (e) => {
       e.preventDefault();
-
-      const name = $('#contactName');
-      const email = $('#contactEmail');
-      const subject = $('#contactSubject');
-      const message = $('#contactMessage');
-
-      let valid = true;
-
-      // Reset errors
-      $$('.form-error').forEach(el => el.textContent = '');
-      $$('.form-input').forEach(el => el.classList.remove('error'));
-
-      if (name.value.trim().length < 2) {
-        $('#nameError').textContent = 'Please enter your name';
-        name.classList.add('error');
-        valid = false;
-      }
-
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(email.value)) {
-        $('#emailError').textContent = 'Please enter a valid email';
-        email.classList.add('error');
-        valid = false;
-      }
-
-      if (message.value.trim().length < 10) {
-        $('#messageError').textContent = 'Message must be at least 10 characters';
-        message.classList.add('error');
-        valid = false;
-      }
-
-      if (!valid) return;
-
-      showToast('Message sent! We will get back to you shortly.', 'success');
+      showToast('Inquiry received. A TEKLINIQ specialist will contact you shortly.', 'success');
       contactForm.reset();
     });
   }
 
-  // --- Newsletter Form ---
   const newsletterForm = $('#newsletterForm');
   if (newsletterForm) {
     newsletterForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      showToast('Subscribed! Welcome to TEKLINIQ.', 'success');
+      showToast('Welcome to the inner circle.', 'success');
       newsletterForm.reset();
     });
   }
 
   // --- Init ---
+  updateGrid();
   updateCartBadge();
   renderCart();
+  initReveal();
 });

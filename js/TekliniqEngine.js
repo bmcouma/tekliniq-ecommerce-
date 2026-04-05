@@ -18,121 +18,121 @@ class TekliniqEngine {
         id: 'p001',
         name: 'Obsidian Chronograph',
         category: 'accessories',
-        price: 289,
-        originalPrice: 350,
-        badge: 'Sale',
-        description: 'Precision-crafted matte black timepiece with sapphire crystal face.',
-        initial: 'OC'
+        price: 850,
+        originalPrice: 1200,
+        badge: 'New',
+        description: 'Meticulously crafted with a brushed titanium case and sapphire crystal. Water-resistant to 100m. Swiss-made movement.',
+        image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&q=80&w=800'
       },
       {
         id: 'p002',
-        name: 'Noir Leather Tote',
-        category: 'bags',
-        price: 195,
+        name: 'Gilded Fountain Pen',
+        category: 'accessories',
+        price: 245,
         originalPrice: null,
-        badge: null,
-        description: 'Full-grain leather tote in deep charcoal. Unlined interior.',
-        initial: 'NT'
+        badge: 'Limited',
+        description: '24k gold-plated nib with a sleek onyx barrel. The perfect instrument for visionary thoughts.',
+        image: 'https://images.unsplash.com/photo-1583485088034-697b5bc54ccd?auto=format&fit=crop&q=80&w=800'
       },
       {
         id: 'p003',
-        name: 'Meridian Sneakers',
-        category: 'footwear',
-        price: 165,
-        originalPrice: 210,
-        badge: 'Sale',
-        description: 'Italian leather low-tops with vulcanized soles. Cloud white.',
-        initial: 'MS'
+        name: 'Noir Leather Tote',
+        category: 'bags',
+        price: 495,
+        originalPrice: null,
+        badge: null,
+        description: 'Full-grain Italian calfskin. Hand-stitched seams and a reinforced base for enduring structure.',
+        image: 'https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&q=80&w=800'
       },
       {
         id: 'p004',
-        name: 'Cashmere Overcoat',
-        category: 'apparel',
-        price: 450,
-        originalPrice: null,
-        badge: 'New',
-        description: 'Double-faced cashmere coat in heather grey. Notch lapels.',
-        initial: 'CO'
+        name: 'The Weekender II',
+        category: 'bags',
+        price: 720,
+        originalPrice: 850,
+        badge: 'Sale',
+        description: 'Waxed canvas paired with heritage leather accents. Spaciously designed for the modern nomad.',
+        image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&q=80&w=800'
       },
       {
         id: 'p005',
-        name: 'Titanium Card Holder',
-        category: 'accessories',
-        price: 78,
+        name: 'Midnight Chelsea Boots',
+        category: 'footwear',
+        price: 380,
         originalPrice: null,
-        badge: null,
-        description: 'Brushed titanium card case. Holds 6 cards. RFID blocking.',
-        initial: 'TC'
+        badge: 'Top Pick',
+        description: 'Sleek, silhouette-focused boots with a premium suede finish. Goodyear welted for a lifetime of wear.',
+        image: 'https://images.unsplash.com/photo-1638247025967-b4e38f787b76?auto=format&fit=crop&q=80&w=800'
       },
       {
         id: 'p006',
-        name: 'Silk-Blend Shirt',
-        category: 'apparel',
-        price: 135,
-        originalPrice: 175,
-        badge: 'Sale',
-        description: 'Relaxed-fit silk-cotton blend. Mother-of-pearl buttons.',
-        initial: 'SS'
+        name: 'Aileron Sneakers',
+        category: 'footwear',
+        price: 215,
+        originalPrice: 280,
+        badge: null,
+        description: 'Ultra-lightweight performance sneakers with a minimalist, futuristic design language.',
+        image: 'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&q=80&w=800'
       },
       {
         id: 'p007',
-        name: 'Structured Weekender',
-        category: 'bags',
-        price: 320,
+        name: 'Monolith Headphones',
+        category: 'tech',
+        price: 549,
         originalPrice: null,
-        badge: 'New',
-        description: 'Canvas and leather weekend bag. Brass hardware. 42L capacity.',
-        initial: 'SW'
+        badge: 'Elite',
+        description: 'Active noise cancellation with 40mm beryllium drivers. Studio-grade sound in a carbon-fiber shell.',
+        image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&q=80&w=800'
       },
       {
         id: 'p008',
-        name: 'Suede Chelsea Boots',
-        category: 'footwear',
-        price: 245,
+        name: 'Titanium Mechanical Keyboard',
+        category: 'tech',
+        price: 320,
         originalPrice: null,
-        badge: null,
-        description: 'Italian suede chelsea boots. Blake-stitched sole. Tobacco.',
-        initial: 'CB'
+        badge: 'New',
+        description: 'Programmable RGB backlighting under artisan-carved titanium keycaps. The apex of workspace peripheral design.',
+        image: 'https://images.unsplash.com/photo-1511467687858-23d96c32e4ae?auto=format&fit=crop&q=80&w=800'
       },
       {
         id: 'p009',
-        name: 'Onyx Sunglasses',
-        category: 'accessories',
-        price: 189,
-        originalPrice: 230,
-        badge: 'Sale',
-        description: 'Acetate frames with polarized lenses. UV400 protection.',
-        initial: 'OS'
+        name: 'Alpine Cashmere Scarf',
+        category: 'apparel',
+        price: 185,
+        originalPrice: 220,
+        badge: 'Winter Wear',
+        description: '100% pure Himalayan cashmere. Unmatched softness and warmth for the coldest expeditions.',
+        image: 'https://images.unsplash.com/photo-1520903920243-00d872a2d1c9?auto=format&fit=crop&q=80&w=800'
       },
       {
         id: 'p010',
-        name: 'Wool Tailored Trousers',
+        name: 'Stealth Bomber Jacket',
         category: 'apparel',
-        price: 165,
+        price: 450,
         originalPrice: null,
         badge: null,
-        description: 'High-twist wool trousers. Flat front. Charcoal.',
-        initial: 'WT'
+        description: 'Water-repellent technical fabric with a matte black finish. Windproof and temperature-regulating.',
+        image: 'https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&q=80&w=800'
       },
       {
         id: 'p011',
-        name: 'Minimalist Backpack',
-        category: 'bags',
-        price: 175,
-        originalPrice: null,
-        badge: null,
-        description: 'Water-resistant nylon. Padded laptop sleeve. Matte black.',
-        initial: 'MB'
+        name: 'Carbon Fiber Wallet',
+        category: 'accessories',
+        price: 125,
+        originalPrice: 150,
+        badge: 'Sale',
+        description: 'Ultra-slim, RFID-blocking wallet forged from aerospace-grade carbon fiber.',
+        image: 'https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&q=80&w=800'
       },
       {
         id: 'p012',
-        name: 'Leather Derby Shoes',
-        category: 'footwear',
-        price: 285,
-        originalPrice: 340,
-        badge: 'Sale',
-        description: 'Hand-polished calfskin derbies. Goodyear welt. Espresso.',
-        initial: 'LD'
+        name: 'Velocette Sunglasses',
+        category: 'accessories',
+        price: 295,
+        originalPrice: null,
+        badge: 'Limited',
+        description: 'Hand-polished acetate frames with polarized obsidian lenses. Engineered for clarity.',
+        image: 'https://images.unsplash.com/photo-1572635196237-14b3f281503f?auto=format&fit=crop&q=80&w=800'
       }
     ];
   }
